@@ -2,6 +2,7 @@ package com.azeem.dynamicuiapp;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,12 +14,30 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     //declare all feilds and buttons and layout
+    private TextView usernameField;
+    private TextView passwordField;
+    private Button continueButton;
+    private Button backButton;
+    private LinearLayout mainLayout;
 
-    //initialize layout to vertical
-    //call createusernameinput function
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //initialize layout to vertical
+        mainLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+        //call createusernameinput function
+    }
     //create createusernameinput function
 
+    private void createUsernameInput(){
+        mainLayout.removeAllViews();
+        usernameField = new EditText(this);
+        passwordField = new EditText(this);
 
+
+    }
 
         //define feilds and hint add continue and back button
         //add all fields to layout
