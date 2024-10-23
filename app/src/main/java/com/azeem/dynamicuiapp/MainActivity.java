@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Password can not be empty", Toast.LENGTH_SHORT).show();
 
         } else{
-            //showUserInfo(username);
+            showUserInfo(username);
         }
 
     }
@@ -122,7 +122,22 @@ public class MainActivity extends AppCompatActivity {
 
     //create showuserinfo
         //variable for datetime and infotext
+    private void showUserInfo(String username){
+        mainLayout.removeAllViews();
+        String currentDate = new SimpleDateFormat("dd/MM/yyy HH:mm:ss",
+                Locale.getDefault()).format(new Date());
+        String infoText = "Username "+ username + "\nCurrentDateTime" + currentDate;
 
+        TextView userInfo = new TextView(this);
+        userInfo.setText(infoText);
+
+        backButton = new Button(this);
+        backButton.setText("Back");
+        backButton.setOnClickListener(view -> onBack());
+
+        mainLayout.addView(userInfo);
+        mainLayout.addView(backButton);
+    }
     private void onBack(){
         createUsernameInput();
     }
