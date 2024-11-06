@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         usernameField = new EditText(this); // Initialize EditText for the username.
         usernameField.setHint("Enter Username"); // Set hint for the username field.
+        usernameField.setOnTouchListener((view, motionEvent) -> {
+            view.setBackgroundColor(Color.TRANSPARENT);
+            return true;
+        });
 
         continueButton = new Button(this); // Create a button for continue action.
         continueButton.setText("Continue"); // Set button text to "Continue".
