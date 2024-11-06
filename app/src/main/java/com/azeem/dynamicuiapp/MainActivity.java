@@ -1,7 +1,11 @@
 package com.azeem.dynamicuiapp;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,126 +23,115 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    //declare all feilds and buttons and layout
+
+    // Define variables for the username field, password field, and buttons.
     private TextView usernameField;
     private TextView passwordField;
     private Button continueButton;
     private Button backButton;
-    private LinearLayout mainLayout;
+    private LinearLayout mainLayout; // Define the main layout for dynamic UI.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //initialize layout to vertical
-        mainLayout = new LinearLayout(this); // 'this' refers to the context (MainActivity)
+        super.onCreate(savedInstanceState); // Call the parent constructor for setup.
 
-        mainLayout.setOrientation(LinearLayout.VERTICAL);
+        mainLayout = new LinearLayout(this); // Create a new LinearLayout.
 
-        setContentView(mainLayout); // Set the main layout as the content view
-        //call createusernameinput function
-        createUsernameInput();
+        mainLayout.setOrientation(LinearLayout.VERTICAL); // Set layout orientation to vertical.
+
+        setContentView(mainLayout); // Set mainLayout as the activity content view.
+        createUsernameInput(); // Call function to create username input view.
 
     }
-    //create createusernameinput function
-        //define feilds and hint add continue and back button
 
-        //add all fields to layout
+    @SuppressLint("ClickableViewAccessibility")
+    private void createUsernameInput() {
+        mainLayout.removeAllViews(); // Clear any existing views in the layout.
 
-    private void createUsernameInput(){
-        mainLayout.removeAllViews(); // Clear any existing views in the layout
-        usernameField = new EditText(this);
-        usernameField.setHint("Enter Username");
-        passwordField = new EditText(this);
-        passwordField.setHint("ENter Password");
-        continueButton = new Button(this);
-        continueButton.setText("Continue");
-        continueButton.setOnClickListener(view -> onUsernameContinue());
-        backButton = new Button(this);
-        backButton.setText("Back");
-        backButton.setOnClickListener(view -> onBack());
+        usernameField = new EditText(this); // Initialize EditText for the username.
+        usernameField.setHint("Enter Username"); // Set hint for the username field.
 
-        // Add the username field and buttons to the main layout
-        mainLayout.addView(usernameField);
-        mainLayout.addView(continueButton);
-        mainLayout.addView(backButton);
+        continueButton = new Button(this); // Create a button for continue action.
+        continueButton.setText("Continue"); // Set button text to "Continue".
+        continueButton.setOnClickListener(view -> onUsernameContinue()); // Set click listener to call onUsernameContinue.
+
+        mainLayout.addView(usernameField); // Add username field to layout.
+        mainLayout.addView(continueButton); // Add continue button to layout.
     }
 
 
-
-    //create createusernamecontinue function
-        //
-        // make username vriable to store
-        //field color to red
     private void onUsernameContinue(){
+        String username = usernameField.getText().toString(); // Get the text entered in username field.
 
-        String username = usernameField.getText().toString();
+        // Check if the username field is empty.
         if (username.isEmpty()){
-            usernameField.setBackgroundColor(0xFFFF0000);
-            Toast.makeText(this,"Usename can not be empty",Toast.LENGTH_SHORT).show();
+            usernameField.setBackgroundColor(0xFFFF0000); // Set background color to red to indicate an error.
+            Toast.makeText(this,"Username cannot be empty",Toast.LENGTH_SHORT).show(); // Show error message.
         } else {
-            createPasswordInput(username);
+            createPasswordInput(username); // Call function to create password input if username is valid.
         }
 
     }
 
-    // create createpasswordinput for feilds and buttons
 
+    @SuppressLint("ClickableViewAccessibility")
     private void createPasswordInput(String username){
-        mainLayout.removeAllViews(); // Clear any existing views in the layout
-        // Create an EditText for the password input
-        passwordField = new EditText(this);
-        passwordField.setHint("Enter Password"); // Set hint text
+        mainLayout.removeAllViews(); // Clear existing views.
+
+        passwordField = new EditText(this); // Initialize EditText for password.
+        passwordField.setHint("Enter Password"); // Set hint text for password field.
+
+
         passwordField.setInputType(InputType.TYPE_CLASS_TEXT |
-                InputType.TYPE_TEXT_VARIATION_PASSWORD); // Set to password input type
+                InputType.TYPE_TEXT_VARIATION_PASSWORD); // Set input type to password (masked).
 
-        continueButton = new Button(this);
-        continueButton.setText("Continue");
-        continueButton.setOnClickListener(view -> onPasswordContinue(username));
+        continueButton = new Button(this); // Create continue button.
+        continueButton.setText("Continue"); // Set text to "Continue".
+        continueButton.setOnClickListener(view -> onPasswordContinue(username)); // Set click listener to call onPasswordContinue with username.
 
-        backButton = new Button(this);
-        backButton.setText("Back");
-        backButton.setOnClickListener(view -> onBack());
+        backButton = new Button(this); // Create back button.
+        backButton.setText("Back"); // Set text to "Back".
+        backButton.setOnClickListener(view -> onBack()); // Set click listener to call onBack.
 
-        // Add the password field and buttons to the main layout
-        mainLayout.addView(passwordField);
-        mainLayout.addView(continueButton);
-        mainLayout.addView(backButton);
-
+        mainLayout.addView(passwordField); // Add password field to layout.
+        mainLayout.addView(continueButton); // Add continue button to layout.
+        mainLayout.addView(backButton); // Add back button to layout.
     }
-    //create onpasswordcontinue function
-        //if field is empty turn red
+
     private void onPasswordContinue(String username){
-        String password = passwordField.getText().toString();
+        String password = passwordField.getText().toString(); // Get text from password field.
+
+        // Check if password field is empty.
         if (password.isEmpty()){
-            passwordField.setBackgroundColor(0xFFFF0000);
-            Toast.makeText(this, "Password can not be empty", Toast.LENGTH_SHORT).show();
-
+            passwordField.setBackgroundColor(0xFFFF0000); // Set background color to red for error indication.
+            Toast.makeText(this, "Password cannot be empty", Toast.LENGTH_SHORT).show(); // Show error message.
         } else{
-            showUserInfo(username);
+            showUserInfo(username); // Call function to show user information if password is valid.
         }
-
     }
 
-
-    //create showuserinfo
-        //variable for datetime and infotext
     private void showUserInfo(String username){
-        mainLayout.removeAllViews();
-        String currentDate = new SimpleDateFormat("dd/MM/yyy HH:mm:ss",
+        mainLayout.removeAllViews(); // Clear existing views.
+
+        // Format current date and time as a string.
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
                 Locale.getDefault()).format(new Date());
-        String infoText = "Username "+ username + "\nCurrentDateTime" + currentDate;
 
-        TextView userInfo = new TextView(this);
-        userInfo.setText(infoText);
+        // Create a text to display username and current date/time.
+        String infoText = "Username: " + username + "\nCurrent DateTime: " + currentDate;
 
-        backButton = new Button(this);
-        backButton.setText("Back");
-        backButton.setOnClickListener(view -> onBack());
+        TextView userInfo = new TextView(this); // Create TextView for displaying user information.
+        userInfo.setText(infoText); // Set text with username and date/time.
 
-        mainLayout.addView(userInfo);
-        mainLayout.addView(backButton);
+        backButton = new Button(this); // Create back button.
+        backButton.setText("Back"); // Set text to "Back".
+        backButton.setOnClickListener(view -> onBack()); // Set click listener to call onBack.
+
+        mainLayout.addView(userInfo); // Add user information TextView to layout.
+        mainLayout.addView(backButton); // Add back button to layout.
     }
+
     private void onBack(){
-        createUsernameInput();
+        createUsernameInput(); // Return to the initial username input view.
     }
 }
